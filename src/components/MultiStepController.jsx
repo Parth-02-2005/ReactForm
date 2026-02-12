@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StepperIndicator } from './StepperIndicator';
 import StepOne from './steps/StepOne';
-import SteopTwo from './steps/stepTwo'
+import StepTwo from './steps/stepTwo'
 
 const MultiStepController = () => {
 
@@ -39,6 +39,7 @@ const MultiStepController = () => {
       <StepperIndicator currentStep={currentStep} />
 
       <div className='step-form-content'>
+
         {currentStep === 1 && (
           <StepOne
             firstName={firstName}
@@ -55,16 +56,54 @@ const MultiStepController = () => {
 
         {currentStep === 2 && (
           <StepTwo
-            addressLine1={addressLine1} 
+            addressLine1={addressLine1}
             setAddressLine1={setAddressLine1}
             addressLine2={addressLine2}
             setAddressLine2={setAddressLine2}
             city={city}
             setCity={setCity}
-            nextStep={() => setCurrentStep(2)} 
+            state={state}
+            setState={setState}
+            pincode={pincode}
+            setPincode={setPincode}
+            country={country}
+            setCountry={setCountry}
+            nextStep={() => setCurrentStep(3)}
             prevStep={() => setCurrentStep(1)}
           />
         )}
+
+        {currentStep === 3 && (
+          <StepThree
+            qualification={qualification}
+            setQualification={setQualification}
+            college={college}
+            setCollege={setCollege}
+            passingYear={passingYear}
+            setPassingYear={setPassingYear}
+            skills={skills}
+            setSkills={setSkills}
+            experience={experience}
+            setExperience={setExperience}
+            nextStep={() => setCurrentStep(4)}
+            prevStep={() => setCurrentStep(3)}
+          />
+        )}
+
+        {currentStep === 4 && (
+        <StepFour
+          idType={idType}
+          setIdType={setIdType}
+          idNumber={idNumber}
+          setIdNumber={setIdNumber}
+          resume={resume}
+          setResume={setResume}
+          profilePhoto={profilePhoto}
+          setProfilePhoto={setProfilePhoto}
+          prevStep={()=> setCurrentStep(3)}
+        />
+      )}
+
       </div>
 
     </div>
