@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { StepperIndicator } from './StepperIndicator';
+import StepperIndicator from './StepperIndicator';
 import StepOne from './steps/StepOne';
-import StepTwo from './steps/stepTwo'
+import StepTwo from './steps/StepTwo';
+import StepThree from './steps/StepThree';
+import StepFour from './steps/StepFour';
 
 const MultiStepController = () => {
 
@@ -50,6 +52,11 @@ const MultiStepController = () => {
             setEmail={setEmail}
             contact={contact}
             setContact={setContact}
+            dateOfBirth={dateOfBirth}
+            setDateOfBirth={setDateOfBirth}
+            gender={gender}
+            setGender={setGender}
+
             nextStep={() => setCurrentStep(2)} 
           />
         )}
@@ -86,7 +93,7 @@ const MultiStepController = () => {
             experience={experience}
             setExperience={setExperience}
             nextStep={() => setCurrentStep(4)}
-            prevStep={() => setCurrentStep(3)}
+            prevStep={() => setCurrentStep(2)}
           />
         )}
 
@@ -102,7 +109,7 @@ const MultiStepController = () => {
           setProfilePhoto={setProfilePhoto}
           prevStep={()=> setCurrentStep(3)}
         />
-      )}
+        )}
 
       </div>
 

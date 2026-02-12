@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coreui/react-pro": "^5.23.5",
     "@tailwindcss/vite": "^4.1.18",
+    "motion": "^12.34.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.18"
