@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import toast from "react-hot-toast";
@@ -155,7 +156,7 @@ const StepOne = ({
         {/* Date */}
         <div>
           <label className="block text-sm text-gray-700 mb-1">
-            Date of Birth *
+            Date of Birth 
           </label>
           <input
             type="date"
@@ -177,7 +178,7 @@ const StepOne = ({
         {/* Gender */}
         <div>
           <label className="block text-sm text-gray-700 mb-1">
-            Gender *
+            Gender 
           </label>
           <select
             value={gender}
