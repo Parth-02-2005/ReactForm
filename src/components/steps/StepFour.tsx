@@ -1,6 +1,34 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+/* ===================== Props Interface ===================== */
+
+interface StepFourProps {
+  idType: string;
+  setIdType: React.Dispatch<React.SetStateAction<string>>;
+
+  idNumber: string;
+  setIdNumber: React.Dispatch<React.SetStateAction<string>>;
+
+  resume: File | null;
+  setResume: React.Dispatch<React.SetStateAction<File | null>>;
+
+  profilePhoto: File | null;
+  setProfilePhoto: React.Dispatch<React.SetStateAction<File | null>>;
+
+  prevStep: () => void;
+  nextStep: () => void;
+}
+
+/* ===================== Error Interface ===================== */
+
+interface DocumentErrors {
+  idType?: string;
+  idNumber?: string;
+  resume?: string;
+  profilePhoto?: string;
+}
+
 const StepFour = ({
   idType,
   setIdType,
@@ -11,16 +39,18 @@ const StepFour = ({
   profilePhoto,
   setProfilePhoto,
   prevStep,
-  nextStep
-}) => {
+  nextStep,
+}: StepFourProps) => {
 
-  const [errors, setErrors] = useState({});
-  const [preview, setPreview] = useState(null);
-  const [shake, setShake] = useState(false);
+  const [errors, setErrors] = useState<DocumentErrors>({});
+  const [preview, setPreview] = useState<string | null>(null);
+  const [shake, setShake] = useState<boolean>(false);
 
   const MAX_SIZE = 2 * 1024 * 1024; // 2MB
 
-  const handleResumeChange = (file) => {
+  /* ===================== Resume Upload ===================== */
+
+  const handleResumeChange = (file: File | undefined): void => {
     if (!file) return;
 
     if (file.type !== "application/pdf") {
@@ -36,7 +66,9 @@ const StepFour = ({
     setResume(file);
   };
 
-  const handlePhotoChange = (file) => {
+  /* ===================== Photo Upload ===================== */
+
+  const handlePhotoChange = (file: File | undefined): void => {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
@@ -53,8 +85,10 @@ const StepFour = ({
     setPreview(URL.createObjectURL(file));
   };
 
-  const validate = () => {
-    let newErrors = {};
+  /* ===================== Validation ===================== */
+
+  const validate = (): boolean => {
+    const newErrors: DocumentErrors = {};
 
     if (!idType.trim())
       newErrors.idType = "ID type is required";
@@ -80,9 +114,9 @@ const StepFour = ({
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (validate()) {
-      toast.success("Form submitted successfully");
+      toast.success("Documents uploaded successfully");
       nextStep();
     }
   };
@@ -105,7 +139,9 @@ const StepFour = ({
             type="text"
             placeholder="ID Type (Aadhar / PAN / Passport)"
             value={idType}
-            onChange={(e) => setIdType(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setIdType(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.idType ? "border-red-500" : "border-gray-300"
             }`}
@@ -121,7 +157,9 @@ const StepFour = ({
             type="text"
             placeholder="ID Number"
             value={idNumber}
-            onChange={(e) => setIdNumber(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setIdNumber(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.idNumber ? "border-red-500" : "border-gray-300"
             }`}
@@ -140,7 +178,9 @@ const StepFour = ({
           <input
             type="file"
             accept=".pdf"
-            onChange={(e) => handleResumeChange(e.target.files[0])}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleResumeChange(e.target.files?.[0])
+            }
             className="block w-full text-sm text-gray-600"
           />
 
@@ -164,7 +204,9 @@ const StepFour = ({
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handlePhotoChange(e.target.files[0])}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handlePhotoChange(e.target.files?.[0])
+            }
             className="block w-full text-sm text-gray-600"
           />
 

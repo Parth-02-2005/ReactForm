@@ -1,6 +1,37 @@
 import React from "react";
 import toast from "react-hot-toast";
 
+/* ===================== Props Interface ===================== */
+
+interface StepFiveProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+  contact: string | undefined;
+  dateOfBirth: string;
+  gender: string;
+
+  addressLine1: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+
+  qualification: string;
+  college: string;
+  passingYear: string;
+  skills: string[];
+  experience: string;
+
+  idNumber: string;
+  resume: File | null;
+  profilePhoto: File | null;
+
+  prevStep: () => void;
+}
+
+/* ===================== Main Component ===================== */
+
 const StepFive = ({
   firstName,
   lastName,
@@ -21,14 +52,13 @@ const StepFive = ({
   idNumber,
   resume,
   profilePhoto,
-  prevStep
-}) => {
+  prevStep,
+}: StepFiveProps) => {
 
-  const handleFinalSubmit = () => {
-    // Here you would send data to backend
+  const handleFinalSubmit = (): void => {
     toast.success("Application submitted successfully");
 
-    console.log([
+    console.log({
       firstName,
       lastName,
       email,
@@ -47,29 +77,28 @@ const StepFive = ({
       experience,
       idNumber,
       resume,
-      profilePhoto
-    ]);
+      profilePhoto,
+    });
   };
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-200">
-
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
         Review & Submit
       </h2>
 
       <div className="space-y-8">
 
-        {/* Basic Info */}
+        {/* ================= Basic Info ================= */}
         <Section title="Basic Information">
           <Row label="Full Name" value={`${firstName} ${lastName}`} />
           <Row label="Email" value={email} />
-          <Row label="Phone" value={contact} />
+          <Row label="Phone" value={contact ?? "Not provided"} />
           <Row label="Date of Birth" value={dateOfBirth} />
           <Row label="Gender" value={gender} />
         </Section>
 
-        {/* Address */}
+        {/* ================= Address ================= */}
         <Section title="Address">
           <Row
             label="Address"
@@ -77,7 +106,7 @@ const StepFive = ({
           />
         </Section>
 
-        {/* Professional */}
+        {/* ================= Professional ================= */}
         <Section title="Professional Details">
           <Row label="Qualification" value={qualification} />
           <Row label="College" value={college} />
@@ -87,25 +116,24 @@ const StepFive = ({
           <div>
             <p className="text-sm text-gray-500 mb-2">Skills</p>
             <div className="flex flex-wrap gap-2">
-              {skills &&
-                skills
-                  .filter(skill => skill !== "")
-                  .map((skill, index) => (  
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+              {skills
+                .filter((skill) => skill !== "")
+                .map((skill, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full"
+                  >
+                    {skill}
+                  </span>
+                ))}
             </div>
           </div>
         </Section>
 
-        {/* Documents */}
+        {/* ================= Documents ================= */}
         <Section title="Documents">
           <Row label="ID Number" value={idNumber} />
-          <Row label="Resume" value={resume?.name || "Not Uploaded"} />
+          <Row label="Resume" value={resume?.name ?? "Not Uploaded"} />
 
           {profilePhoto && (
             <div>
@@ -121,7 +149,7 @@ const StepFive = ({
           )}
         </Section>
 
-        {/* Buttons */}
+        {/* ================= Buttons ================= */}
         <div className="flex justify-between pt-6">
           <button
             type="button"
@@ -147,10 +175,14 @@ const StepFive = ({
 
 export default StepFive;
 
+/* ===================== Reusable Components ===================== */
 
-/* Small reusable components */
+interface SectionProps {
+  title: string;
+  children: React.ReactNode;
+}
 
-const Section = ({ title, children }) => (
+const Section = ({ title, children }: SectionProps) => (
   <div className="border-t pt-6">
     <h3 className="text-lg font-medium text-gray-800 mb-4">
       {title}
@@ -159,7 +191,12 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-const Row = ({ label, value }) => (
+interface RowProps {
+  label: string;
+  value: string;
+}
+
+const Row = ({ label, value }: RowProps) => (
   <div className="flex justify-between text-sm">
     <span className="text-gray-500">{label}</span>
     <span className="text-gray-800 font-medium">{value}</span>

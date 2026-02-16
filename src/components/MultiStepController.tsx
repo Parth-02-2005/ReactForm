@@ -1,47 +1,48 @@
-import React, { useState } from 'react'
-import StepperIndicator from './StepperIndicator';
-import StepOne from './steps/StepOne';
-import StepTwo from './steps/StepTwo';
-import StepThree from './steps/StepThree';
-import StepFour from './steps/StepFour';
-import StepFive from './steps/StepFive';
+import { useState } from "react";
+import StepperIndicator from "./StepperIndicator";
+import StepOne from "./steps/StepOne";
+import StepTwo from "./steps/StepTwo";
+import StepThree from "./steps/StepThree";
+import StepFour from "./steps/StepFour";
+import StepFive from "./steps/StepFive";
 
 const MultiStepController = () => {
+  // Step 1 - Personal Details
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [contact, setContact] = useState<string | undefined>(undefined);
+  const [dateOfBirth, setDateOfBirth] = useState<string>("");
+  const [gender, setGender] = useState<string>("prefer not to say");
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [contact, setContact] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [gender, setGender] = useState("prefer not to say");
+  // Step 2 - Address
+  const [addressLine1, setAddressLine1] = useState<string>("");
+  const [addressLine2, setAddressLine2] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [pincode, setPincode] = useState<string>("");
+  const [country, setCountry] = useState<string>("India");
 
-    const [addressLine1, setAddressLine1] = useState('');
-    const [addressLine2, setAddressLine2] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [pincode, setPincode] = useState('');
-    const [country, setCountry] = useState('India');
+  // Step 3 - Education
+  const [qualification, setQualification] = useState<string>("");
+  const [college, setCollege] = useState<string>("");
+  const [passingYear, setPassingYear] = useState<string>("");
+  const [skills, setSkills] = useState<string[]>([]);
+  const [experience, setExperience] = useState<string>("");
 
-    const [qualification, setQualification] = useState('');
-    const [college, setCollege] = useState('');
-    const [passingYear, setPassingYear] = useState('');
-    const [skills, setSkills] = useState([]);
-    const [experience, setExperience] = useState('');
+  // Step 4 - Documents
+  const [idType, setIdType] = useState<string>("");
+  const [idNumber, setIdNumber] = useState<string>("");
+  const [resume, setResume] = useState<File | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
 
-    const [idType, setIdType] = useState('');
-    const [idNumber, setIdNumber] = useState('');
-    const [resume, setResume] = useState(null);
-    const [profilePhoto, setProfilePhoto] = useState(null);
+  const [currentStep, setCurrentStep] = useState<number>(1);
 
-    const [currentStep, setCurrentStep] = useState(1);
-
-    
   return (
-    <div className='multi-step-container'>
-
+    <div className="multi-step-container">
       <StepperIndicator currentStep={currentStep} />
 
-      <div className='step-form-content'>
+      <div className="step-form-content">
 
         {currentStep === 1 && (
           <StepOne
@@ -57,8 +58,7 @@ const MultiStepController = () => {
             setDateOfBirth={setDateOfBirth}
             gender={gender}
             setGender={setGender}
-
-            nextStep={() => setCurrentStep(2)} 
+            nextStep={() => setCurrentStep(2)}
           />
         )}
 
@@ -99,22 +99,22 @@ const MultiStepController = () => {
         )}
 
         {currentStep === 4 && (
-        <StepFour
-          idType={idType}
-          setIdType={setIdType}
-          idNumber={idNumber}
-          setIdNumber={setIdNumber}
-          resume={resume}
-          setResume={setResume}
-          profilePhoto={profilePhoto}
-          setProfilePhoto={setProfilePhoto}
-          prevStep={()=> setCurrentStep(3)}
-          nextStep={() => setCurrentStep(5)}
-        />
+          <StepFour
+            idType={idType}
+            setIdType={setIdType}
+            idNumber={idNumber}
+            setIdNumber={setIdNumber}
+            resume={resume}
+            setResume={setResume}
+            profilePhoto={profilePhoto}
+            setProfilePhoto={setProfilePhoto}
+            prevStep={() => setCurrentStep(3)}
+            nextStep={() => setCurrentStep(5)}
+          />
         )}
 
         {currentStep === 5 && (
-        <StepFive
+          <StepFive
             firstName={firstName}
             lastName={lastName}
             email={email}
@@ -135,14 +135,12 @@ const MultiStepController = () => {
             resume={resume}
             profilePhoto={profilePhoto}
             prevStep={() => setCurrentStep(4)}
-
-        />
+          />
         )}
 
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default MultiStepController
+export default MultiStepController;

@@ -1,9 +1,7 @@
-import './App.css'
 import { Toaster } from "react-hot-toast";
 
-
-import MultiStepController from './components/MultiStepController';
-import StepperIndicator from './components/StepperIndicator';
+import MultiStepController from './components/MultiStepController.js';
+import StepperIndicator from './components/StepperIndicator.js';
 
 function App() {
 

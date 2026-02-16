@@ -1,6 +1,38 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+/* ===================== Props Interface ===================== */
+
+interface StepThreeProps {
+  qualification: string;
+  setQualification: React.Dispatch<React.SetStateAction<string>>;
+
+  college: string;
+  setCollege: React.Dispatch<React.SetStateAction<string>>;
+
+  passingYear: string;
+  setPassingYear: React.Dispatch<React.SetStateAction<string>>;
+
+  skills: string[];
+  setSkills: React.Dispatch<React.SetStateAction<string[]>>;
+
+  experience: string;
+  setExperience: React.Dispatch<React.SetStateAction<string>>;
+
+  nextStep: () => void;
+  prevStep: () => void;
+}
+
+/* ===================== Error Interface ===================== */
+
+interface ProfessionalErrors {
+  qualification?: string;
+  college?: string;
+  passingYear?: string;
+  skills?: string;
+  experience?: string;
+}
+
 const StepThree = ({
   qualification,
   setQualification,
@@ -13,16 +45,17 @@ const StepThree = ({
   experience,
   setExperience,
   nextStep,
-  prevStep
-}) => {
+  prevStep,
+}: StepThreeProps) => {
 
-  const [errors, setErrors] = useState({});
-  const [shake, setShake] = useState(false);
+  const [errors, setErrors] = useState<ProfessionalErrors>({});
+  const [shake, setShake] = useState<boolean>(false);
 
-  const validate = () => {
-
-    let newErrors = {};
+  const validate = (): boolean => {
+    const newErrors: ProfessionalErrors = {};
     const currentYear = new Date().getFullYear();
+    const yearNumber = Number(passingYear);
+    const experienceNumber = Number(experience);
 
     if (!qualification.trim())
       newErrors.qualification = "Qualification is required";
@@ -30,22 +63,24 @@ const StepThree = ({
     if (!college.trim())
       newErrors.college = "College name is required";
 
-    if (!passingYear.trim())
+    if (!passingYear.trim()) {
       newErrors.passingYear = "Passing year is required";
-    else if (
+    } else if (
       !/^\d{4}$/.test(passingYear) ||
-      passingYear < 1950 ||
-      passingYear > currentYear
-    )
+      yearNumber < 1950 ||
+      yearNumber > currentYear
+    ) {
       newErrors.passingYear = "Enter a valid year";
+    }
 
     if (!skills || skills.length === 0)
       newErrors.skills = "At least one skill is required";
 
-    if (!experience.trim())
+    if (!experience.trim()) {
       newErrors.experience = "Experience is required";
-    else if (isNaN(experience) || experience < 0)
+    } else if (isNaN(experienceNumber) || experienceNumber < 0) {
       newErrors.experience = "Enter valid experience in years";
+    }
 
     setErrors(newErrors);
 
@@ -59,7 +94,7 @@ const StepThree = ({
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (validate()) {
       toast.success("Professional details saved");
       nextStep();
@@ -84,7 +119,9 @@ const StepThree = ({
             type="text"
             placeholder="Qualification"
             value={qualification}
-            onChange={(e) => setQualification(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setQualification(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.qualification ? "border-red-500" : "border-gray-300"
             }`}
@@ -100,7 +137,9 @@ const StepThree = ({
             type="text"
             placeholder="College"
             value={college}
-            onChange={(e) => setCollege(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCollege(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.college ? "border-red-500" : "border-gray-300"
             }`}
@@ -116,7 +155,9 @@ const StepThree = ({
             type="text"
             placeholder="Passing Year (e.g. 2023)"
             value={passingYear}
-            onChange={(e) => setPassingYear(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassingYear(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.passingYear ? "border-red-500" : "border-gray-300"
             }`}
@@ -132,11 +173,12 @@ const StepThree = ({
             type="text"
             placeholder="Skills (comma separated)"
             value={skills.join(", ")}
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setSkills(
                 e.target.value
                   .split(",")
-                  .map(skill => skill.trim())
+                  .map((skill) => skill.trim())
+                  .filter((skill) => skill.length > 0)
               )
             }
             className={`w-full px-3 py-2 border rounded-md ${
@@ -154,7 +196,9 @@ const StepThree = ({
             type="text"
             placeholder="Experience (in years)"
             value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setExperience(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md ${
               errors.experience ? "border-red-500" : "border-gray-300"
             }`}

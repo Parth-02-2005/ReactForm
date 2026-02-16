@@ -1,7 +1,42 @@
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+// import "react-phone-number-input/style.css";
 import toast from "react-hot-toast";
+
+/* ===================== Props Interface ===================== */
+
+interface StepOneProps {
+  firstName: string;
+  setFirstName: React.Dispatch<React.SetStateAction<string>>;
+
+  lastName: string;
+  setLastName: React.Dispatch<React.SetStateAction<string>>;
+
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+
+  contact: string | undefined;
+  setContact: React.Dispatch<React.SetStateAction<string | undefined>>;
+
+  dateOfBirth: string;
+  setDateOfBirth: React.Dispatch<React.SetStateAction<string>>;
+
+  gender: string;
+  setGender: React.Dispatch<React.SetStateAction<string>>;
+
+  nextStep: () => void;
+}
+
+/* ===================== Error Interface ===================== */
+
+interface Errors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  contact?: string;
+  dateOfBirth?: string;
+  gender?: string;
+}
 
 const StepOne = ({
   firstName,
@@ -16,14 +51,14 @@ const StepOne = ({
   setDateOfBirth,
   gender,
   setGender,
-  nextStep
-}) => {
+  nextStep,
+}: StepOneProps) => {
 
-  const [errors, setErrors] = useState({});
-  const [shake, setShake] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
+  const [shake, setShake] = useState<boolean>(false);
 
-  const validate = () => {
-    let newErrors = {};
+  const validate = (): boolean => {
+    const newErrors: Errors = {};
 
     if (!firstName.trim()) newErrors.firstName = "First name is required";
     if (!lastName.trim()) newErrors.lastName = "Last name is required";
@@ -50,7 +85,7 @@ const StepOne = ({
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (validate()) {
       toast.success("Step completed successfully");
       nextStep();
@@ -68,7 +103,6 @@ const StepOne = ({
       </h2>
 
       <div className="space-y-5">
-
         {/* First Name */}
         <div>
           <label className="block text-sm text-gray-700 mb-1">
@@ -77,7 +111,9 @@ const StepOne = ({
           <input
             type="text"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFirstName(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.firstName
                 ? "border-red-500 focus:ring-red-200"
@@ -99,7 +135,9 @@ const StepOne = ({
           <input
             type="text"
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setLastName(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.lastName
                 ? "border-red-500 focus:ring-red-200"
@@ -121,7 +159,9 @@ const StepOne = ({
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.email
                 ? "border-red-500 focus:ring-red-200"
@@ -143,7 +183,7 @@ const StepOne = ({
           <PhoneInput
             defaultCountry="IN"
             value={contact}
-            onChange={setContact}
+            onChange={(value) => setContact(value)}
             className="border border-gray-300 rounded-md px-3 py-2"
           />
           {errors.contact && (
@@ -156,12 +196,14 @@ const StepOne = ({
         {/* Date */}
         <div>
           <label className="block text-sm text-gray-700 mb-1">
-            Date of Birth 
+            Date of Birth
           </label>
           <input
             type="date"
             value={dateOfBirth}
-            onChange={(e) => setDateOfBirth(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setDateOfBirth(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.dateOfBirth
                 ? "border-red-500 focus:ring-red-200"
@@ -178,11 +220,13 @@ const StepOne = ({
         {/* Gender */}
         <div>
           <label className="block text-sm text-gray-700 mb-1">
-            Gender 
+            Gender
           </label>
           <select
             value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setGender(e.target.value)
+            }
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.gender
                 ? "border-red-500 focus:ring-red-200"
@@ -201,7 +245,6 @@ const StepOne = ({
           )}
         </div>
 
-        {/* Button */}
         <button
           type="button"
           onClick={handleNext}
@@ -209,7 +252,6 @@ const StepOne = ({
         >
           Continue
         </button>
-
       </div>
     </div>
   );
