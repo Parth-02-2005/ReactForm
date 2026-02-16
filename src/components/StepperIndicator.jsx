@@ -6,7 +6,8 @@ const StepperIndicator = ({ currentStep }) => {
     "Basic Info",
     "Address",
     "Professional",
-    "Documents"
+    "Documents",
+    "Preview & Submit"
   ];
 
   const progressPercent =

@@ -131,12 +131,12 @@ const StepThree = ({
           <input
             type="text"
             placeholder="Skills (comma separated)"
+            value={skills.join(", ")}
             onChange={(e) =>
               setSkills(
                 e.target.value
                   .split(",")
                   .map(skill => skill.trim())
-                  .filter(skill => skill !== "")
               )
             }
             className={`w-full px-3 py-2 border rounded-md ${

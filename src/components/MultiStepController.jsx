@@ -4,6 +4,7 @@ import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import StepFour from './steps/StepFour';
+import StepFive from './steps/StepFive';
 
 const MultiStepController = () => {
 
@@ -11,7 +12,7 @@ const MultiStepController = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [contact, setContact] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState("prefer not to say");
 
     const [addressLine1, setAddressLine1] = useState('');
@@ -92,8 +93,8 @@ const MultiStepController = () => {
             setSkills={setSkills}
             experience={experience}
             setExperience={setExperience}
-            nextStep={() => setCurrentStep(4)}
             prevStep={() => setCurrentStep(2)}
+            nextStep={() => setCurrentStep(4)}
           />
         )}
 
@@ -108,6 +109,33 @@ const MultiStepController = () => {
           profilePhoto={profilePhoto}
           setProfilePhoto={setProfilePhoto}
           prevStep={()=> setCurrentStep(3)}
+          nextStep={() => setCurrentStep(5)}
+        />
+        )}
+
+        {currentStep === 5 && (
+        <StepFive
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            contact={contact}
+            dateOfBirth={dateOfBirth}
+            gender={gender}
+            addressLine1={addressLine1}
+            city={city}
+            state={state}
+            pincode={pincode}
+            country={country}
+            qualification={qualification}
+            college={college}
+            passingYear={passingYear}
+            skills={skills}
+            experience={experience}
+            idNumber={idNumber}
+            resume={resume}
+            profilePhoto={profilePhoto}
+            prevStep={() => setCurrentStep(4)}
+
         />
         )}
 
