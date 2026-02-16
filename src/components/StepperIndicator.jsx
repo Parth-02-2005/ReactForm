@@ -1,22 +1,35 @@
-import React from 'react'
+import React from "react";
 
-
-const StepperIndicator = ({currentStep, setCurrentStep}) => {
+const StepperIndicator = ({ currentStep }) => {
 
   const steps = [
-  "Basic Info",
-  "Address",
-  "Professional",
-  "Documents"
-];
+    "Basic Info",
+    "Address",
+    "Professional",
+    "Documents"
+  ];
+
+  const progressPercent =
+    ((currentStep - 1) / (steps.length - 1)) * 100;
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8">
+    <div className="w-full max-w-4xl mx-auto py-10">
+
+      {/* Step Circles */}
       <div className="flex items-center justify-between relative">
 
-        {steps.map((step, index) => {
-          const stepNumber = index + 1;
+        {/* Background Line */}
+        <div className="absolute top-5 left-0 w-full h-[2px] bg-gray-300 -z-10" />
 
+        {/* Animated Active Line */}
+        <div
+          className="absolute top-5 left-0 h-[2px] bg-gray-900 -z-10 transition-all duration-500 ease-in-out"
+          style={{ width: `${progressPercent}%` }}
+        />
+
+        {steps.map((step, index) => {
+
+          const stepNumber = index + 1;
           const isCompleted = stepNumber < currentStep;
           const isActive = stepNumber === currentStep;
 
@@ -25,24 +38,16 @@ const StepperIndicator = ({currentStep, setCurrentStep}) => {
               key={index}
               className="flex flex-col items-center flex-1 relative"
             >
-              {/* Connector Line */}
-              {index !== 0 && (
-                <div
-                  className={`absolute top-5 left-0 w-full h-[2px] -z-10 transition-all duration-300
-                  ${isCompleted ? "bg-gray-900" : "bg-gray-300"}`}
-                />
-              )}
-
               {/* Circle */}
               <div
                 className={`
                   w-10 h-10 flex items-center justify-center rounded-full
-                  border-2 transition-all duration-300
+                  border-2 transition-all duration-300 ease-in-out
                   ${
                     isCompleted
-                      ? "bg-gray-900 border-gray-900 text-white"
+                      ? "bg-gray-900 border-gray-900 text-white scale-105"
                       : isActive
-                      ? "bg-white border-gray-800 text-gray-900"
+                      ? "bg-white border-gray-900 text-gray-900 scale-110 shadow-md"
                       : "bg-gray-200 border-gray-300 text-gray-500"
                   }
                 `}
@@ -53,20 +58,22 @@ const StepperIndicator = ({currentStep, setCurrentStep}) => {
               {/* Label */}
               <span
                 className={`mt-2 text-sm transition-all duration-300
-                ${
-                  isActive
-                    ? "text-gray-900 font-medium"
-                    : "text-gray-500"
-                }`}
+                  ${
+                    isActive
+                      ? "text-gray-900 font-medium"
+                      : "text-gray-500"
+                  }
+                `}
               >
                 {step}
               </span>
             </div>
           );
         })}
+
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StepperIndicator
+export default StepperIndicator;

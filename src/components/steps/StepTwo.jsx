@@ -26,19 +26,19 @@ const StepTwo = ({
     let newErrors = {};
 
     if(!addressLine1.trim()) newErrors.addressLine1 = "Address Line 1 is required"
-    if(!addressLine2.trim()) newErrors.addressLine2 = "Address Line 2 is required"
+    // if(!addressLine2.trim()) newErrors.addressLine2 = "Address Line 2 is required"
     if(!city.trim()) newErrors.city = "City is required"
     if(!state.trim()) newErrors.state = "State is required"
     if (!pincode.trim())
       newErrors.pincode = "Pincode is required";
     else if (!/^\d{5,6}$/.test(pincode))
       newErrors.pincode = "Enter valid pincode";
-    if(!country) newErrors.country = "country cannot be missing"
+    if(!country.trim()) newErrors.country = "country cannot be missing"
 
 
     setErrors(newErrors);
 
-    if(newErrors.length > 0) {
+    if(Object.keys(newErrors).length > 0) {
       toast.error('Please fix the errors before continuing.')
       setShake(true);
       setTimeout(() => setShake(false), 400);
@@ -89,14 +89,16 @@ const StepTwo = ({
           
        </div>
 
-      <input
+       <div>
+
+        <input
         type="text"
         placeholder="Address Line 2"
         value={addressLine2}
         onChange={(e) => setAddressLine2(e.target.value)}
-        className={`w-full px-3 py-2 border rounded-md ${
+        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition ${
               errors.addressLine2
-                ? "border-red-500"
+                ? "border-red-500 focus:ring-red-200"
                 : "border-gray-300"
             }`}
       />
@@ -106,13 +108,17 @@ const StepTwo = ({
         </p>
       )}
 
-      <input
+       </div>
+
+      <div>
+
+        <input
         type="text"
         placeholder="City"
         value={city}
         onChange={(e) => setCity(e.target.value)}
         className={`w-full px-3 py-2 border rounded-md ${
-              errors.city ? "border-red-500" : "border-gray-300"
+              errors.city ? "border-red-500 focus:ring-red-200" : "border-gray-300"
             }`}
       />
 
@@ -120,7 +126,11 @@ const StepTwo = ({
         <p className="text-red-500 text-xs mt-1">{errors.city}</p>
       )}
 
-      <input
+      </div>
+
+      <div>
+
+        <input
         type="text"
         placeholder="State"
         value={state}
@@ -134,7 +144,12 @@ const StepTwo = ({
           <p className="text-red-500 text-xs mt-1">{errors.state}</p>
         )
       }
-      <input
+
+      </div>
+
+      <div>
+
+        <input
         type="text"
         placeholder="Pincode"
         value={pincode}
@@ -146,7 +161,12 @@ const StepTwo = ({
       {errors.pincode && (
           <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>
       )}
-      <input
+
+      </div>
+
+      <div>
+
+        <input
         type="text"
         placeholder="Country"
         value={country}
@@ -159,6 +179,10 @@ const StepTwo = ({
       {errors.country && (
         <p className="text-red-500 text-xs mt-1">{errors.country}</p>
       )}
+
+      </div>
+      
+      
       <div className="flex justify-between">
         <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
           Back
