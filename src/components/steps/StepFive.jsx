@@ -26,7 +26,7 @@ const StepFive = ({
 
   const handleFinalSubmit = () => {
     // Here you would send data to backend
-    toast.success("Application submitted successfully 🚀");
+    toast.success("Application submitted successfully");
 
     console.log([
       firstName,
@@ -90,7 +90,7 @@ const StepFive = ({
               {skills &&
                 skills
                   .filter(skill => skill !== "")
-                  .map((skill, index) => (
+                  .map((skill, index) => (  
                     <span
                       key={index}
                       className="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full"
